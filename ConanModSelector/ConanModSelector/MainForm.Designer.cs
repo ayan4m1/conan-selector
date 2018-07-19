@@ -42,7 +42,6 @@
             this.clmPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmInstalled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listMods = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
@@ -122,14 +121,10 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Softcore",
-            "Hardcore"});
             this.comboBox1.Location = new System.Drawing.Point(89, 6);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(220, 21);
             this.comboBox1.TabIndex = 10;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // cmdWriteModlist
             // 
@@ -156,17 +151,12 @@
             this.clmFilename.Text = "Filename";
             this.clmFilename.Width = 112;
             // 
-            // clmInstalled
-            // 
-            this.clmInstalled.Text = "Installed";
-            // 
             // listMods
             // 
             this.listMods.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmPath,
             this.clmID,
-            this.clmFilename,
-            this.clmInstalled});
+            this.clmFilename});
             this.listMods.Location = new System.Drawing.Point(12, 84);
             this.listMods.Name = "listMods";
             this.listMods.Size = new System.Drawing.Size(413, 383);
@@ -193,6 +183,7 @@
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "Conan Mod Selector";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -214,7 +205,6 @@
         private System.Windows.Forms.ColumnHeader clmPath;
         private System.Windows.Forms.ColumnHeader clmID;
         private System.Windows.Forms.ColumnHeader clmFilename;
-        private System.Windows.Forms.ColumnHeader clmInstalled;
         private System.Windows.Forms.ListView listMods;
     }
 }

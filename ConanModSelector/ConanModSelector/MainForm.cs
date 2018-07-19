@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 
 namespace ConanModSelector
 {
     public partial class MainForm : Form
     {
-        List<int> modIds;
+        List<Mod> _mods = new List<Mod>();
 
         public MainForm()
         {
@@ -33,9 +36,11 @@ namespace ConanModSelector
 
         private void cmdWriteModlist_Click(object sender, EventArgs e)
         {
-            if (modIds == null)
+            listMods.Items.Clear();
+
+            if (_mods.Count == 0)
             {
-                MessageBox.Show("Select a preset!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No presets loaded!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -47,9 +52,10 @@ namespace ConanModSelector
 
             var modListFile = Path.Combine(txtConanPath.Text, "ConanSandbox", "Mods", "modlist.txt");
             var modListData = "";
-            foreach (var modId in modIds)
+            var selectedMod = _mods.Find((mod) => mod.Name == comboBox1.Text);
+            foreach (var mod in selectedMod.Mods)
             {
-                var modGlob = Path.Combine(txtMods.Text, modId.ToString());
+                var modGlob = Path.Combine(txtMods.Text, mod.ToString());
                 var files = Directory.EnumerateFiles(modGlob, "*.pak");
                 if (files.Count() > 1)
                 {
@@ -57,10 +63,16 @@ namespace ConanModSelector
                 }
 
                 var file = files.First();
+                var name = Path.GetFileName(file);
+                var parts = file.Split(Path.DirectorySeparatorChar);
+                var id = parts[parts.Length - 2];
+
+                listMods.Items.Add(new ListViewItem(new string[] { file, id, name }));
+
                 modListData += $"*{file}\r\n";
             }
             File.WriteAllText(modListFile, modListData);
-            MessageBox.Show($"Wrote {modIds.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Wrote {selectedMod.Mods.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void txtConanPath_TextChanged(object sender, EventArgs e)
@@ -73,44 +85,22 @@ namespace ConanModSelector
             cmdWriteModlist.Enabled = txtMods.Text.Length > 0;
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            if (comboBox1.Text == "Softcore")
+            var client = new WebClient();
+            var modData = client.DownloadString("http://survivalmod.com/mods.json");
+            var mods = JArray.Parse(modData);
+            foreach (var mod in mods)
             {
-                modIds = new List<int>(new int[]
+                var modObj = new Mod();
+                modObj.Name = mod["name"].ToString();
+                var ids = mod["mods"];
+                foreach (var id in ids)
                 {
-                    864199675,
-                    1108556675,
-                    1183199682,
-                    1211904989,
-                    913496068,
-                    1369743238,
-                    1159180273,
-                    880177231,
-                    925197087,
-                    1437712973,
-                    862889805
-                });
-            }
-            else if (comboBox1.Text == "Hardcore")
-            {
-                modIds = new List<int>(new int[] {
-                    880454836,
-                    864199675,
-                    1183199682,
-                    1211904989,
-                    1108556675,
-                    1389681165,
-                    897947497,
-                    1159180273,
-                    1369743238,
-                    913496068,
-                    1417350098,
-                    925197087,
-                    862889805,
-                    1390768358,
-                    1315595341
-                });
+                    modObj.Mods.Add(int.Parse(id.ToString()));
+                }
+                comboBox1.Items.Add(modObj.Name);
+                _mods.Add(modObj);
             }
         }
     }
