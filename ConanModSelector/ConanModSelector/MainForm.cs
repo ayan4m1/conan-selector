@@ -52,24 +52,40 @@ namespace ConanModSelector
 
             var modListFile = Path.Combine(txtConanPath.Text, "ConanSandbox", "Mods", "modlist.txt");
             var modListData = "";
-            var selectedMod = _mods.Find((mod) => mod.Name == comboBox1.Text);
-            foreach (var mod in selectedMod.Mods)
+            var selectedMod = _mods.Find((mod) => mod.Name == selectedPreset.Text);
+            if (selectedMod == null)
             {
-                var modGlob = Path.Combine(txtMods.Text, mod.ToString());
-                var files = Directory.EnumerateFiles(modGlob, "*.pak");
-                if (files.Count() > 1)
+                MessageBox.Show($"Did not find mod information for preset named {selectedPreset.Text}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var modPath = "";
+            var modName = "";
+            foreach (var rawModId in selectedMod.Mods)
+            {
+                var modId = rawModId.ToString();
+                var installed = true;
+                modPath = Path.Combine(txtMods.Text, modId);
+                if (!Directory.Exists(modPath))
                 {
-                    Console.WriteLine($"WARN: More than one .pak in {modGlob}");
+                    installed = false;
+                    modName = "Unknown";
+                    MessageBox.Show($"Mod {modId} not downloaded!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    var files = Directory.EnumerateFiles(modPath, "*.pak");
+                    if (files.Count() > 1)
+                    {
+                        MessageBox.Show($"Warning: More than one .pak in {modPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
+                    modPath = files.First();
+                    modName = Path.GetFileName(modPath);
+                    modListData += $"*{modPath}\r\n";
                 }
 
-                var file = files.First();
-                var name = Path.GetFileName(file);
-                var parts = file.Split(Path.DirectorySeparatorChar);
-                var id = parts[parts.Length - 2];
-
-                listMods.Items.Add(new ListViewItem(new string[] { file, id, name }));
-
-                modListData += $"*{file}\r\n";
+                listMods.Items.Add(new ListViewItem(new string[] { modPath, modId, modName, (installed) ? "Yes" : "No" }));
             }
             File.WriteAllText(modListFile, modListData);
             MessageBox.Show($"Wrote {selectedMod.Mods.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -99,7 +115,7 @@ namespace ConanModSelector
                 {
                     modObj.Mods.Add(int.Parse(id.ToString()));
                 }
-                comboBox1.Items.Add(modObj.Name);
+                selectedPreset.Items.Add(modObj.Name);
                 _mods.Add(modObj);
             }
         }

@@ -37,12 +37,13 @@
             this.cmdModsBrowse = new System.Windows.Forms.Button();
             this.fbdModPath = new System.Windows.Forms.FolderBrowserDialog();
             this.lblPreset = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.selectedPreset = new System.Windows.Forms.ComboBox();
             this.cmdWriteModlist = new System.Windows.Forms.Button();
             this.clmPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listMods = new System.Windows.Forms.ListView();
+            this.clmInstalled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // fbdConanPath
@@ -120,11 +121,11 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(89, 6);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(220, 21);
-            this.comboBox1.TabIndex = 10;
+            this.selectedPreset.FormattingEnabled = true;
+            this.selectedPreset.Location = new System.Drawing.Point(89, 6);
+            this.selectedPreset.Name = "comboBox1";
+            this.selectedPreset.Size = new System.Drawing.Size(220, 21);
+            this.selectedPreset.TabIndex = 10;
             // 
             // cmdWriteModlist
             // 
@@ -156,7 +157,8 @@
             this.listMods.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmPath,
             this.clmID,
-            this.clmFilename});
+            this.clmFilename,
+            this.clmInstalled});
             this.listMods.Location = new System.Drawing.Point(12, 84);
             this.listMods.Name = "listMods";
             this.listMods.Size = new System.Drawing.Size(413, 383);
@@ -164,13 +166,17 @@
             this.listMods.UseCompatibleStateImageBehavior = false;
             this.listMods.View = System.Windows.Forms.View.Details;
             // 
+            // clmInstalled
+            // 
+            this.clmInstalled.Text = "Installed";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(437, 479);
             this.Controls.Add(this.cmdWriteModlist);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.selectedPreset);
             this.Controls.Add(this.lblPreset);
             this.Controls.Add(this.listMods);
             this.Controls.Add(this.cmdModsBrowse);
@@ -200,12 +206,13 @@
         private System.Windows.Forms.Button cmdModsBrowse;
         private System.Windows.Forms.FolderBrowserDialog fbdModPath;
         private System.Windows.Forms.Label lblPreset;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox selectedPreset;
         private System.Windows.Forms.Button cmdWriteModlist;
         private System.Windows.Forms.ColumnHeader clmPath;
         private System.Windows.Forms.ColumnHeader clmID;
         private System.Windows.Forms.ColumnHeader clmFilename;
         private System.Windows.Forms.ListView listMods;
+        private System.Windows.Forms.ColumnHeader clmInstalled;
     }
 }
 
