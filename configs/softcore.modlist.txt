@@ -1,0 +1,11 @@
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\864199675/Pickup+.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\1108556675/ElevatorPlus.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\1183199682/Immersive_NPCLoot.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\1211904989/Immersive_Smelting.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\913496068/LitManBoobsAndDongs.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\1369743238/No_Building_Placement_Restrictions.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\1159180273/StylistPlus.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\880177231/Pythagoras.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\925197087/DyeMoreBetterer.pak
+*C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\1437712973/PermPaint.pak
+C:\Program Files (x86)\Steam\steamapps\workshop\content\440900\862889805/test.pak
