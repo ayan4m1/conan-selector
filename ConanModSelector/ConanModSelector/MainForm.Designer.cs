@@ -37,13 +37,13 @@
             this.cmdModsBrowse = new System.Windows.Forms.Button();
             this.fbdModPath = new System.Windows.Forms.FolderBrowserDialog();
             this.lblPreset = new System.Windows.Forms.Label();
-            this.selectedPreset = new System.Windows.Forms.ComboBox();
-            this.cmdWriteModlist = new System.Windows.Forms.Button();
             this.clmPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listMods = new System.Windows.Forms.ListView();
             this.clmInstalled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.txtCollectionURL = new System.Windows.Forms.TextBox();
+            this.cmdReadMods = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // fbdConanPath
@@ -76,7 +76,6 @@
             this.txtConanPath.Size = new System.Drawing.Size(220, 20);
             this.txtConanPath.TabIndex = 2;
             this.txtConanPath.Text = "E:\\steamapps\\common\\Conan Exiles";
-            this.txtConanPath.TextChanged += new System.EventHandler(this.txtConanPath_TextChanged);
             // 
             // lblMods
             // 
@@ -94,7 +93,6 @@
             this.txtMods.Size = new System.Drawing.Size(220, 20);
             this.txtMods.TabIndex = 4;
             this.txtMods.Text = "E:\\steamapps\\workshop\\content\\440900";
-            this.txtMods.TextChanged += new System.EventHandler(this.txtMods_TextChanged);
             // 
             // cmdModsBrowse
             // 
@@ -113,29 +111,11 @@
             // lblPreset
             // 
             this.lblPreset.AutoSize = true;
-            this.lblPreset.Location = new System.Drawing.Point(12, 9);
+            this.lblPreset.Location = new System.Drawing.Point(2, 9);
             this.lblPreset.Name = "lblPreset";
-            this.lblPreset.Size = new System.Drawing.Size(64, 13);
+            this.lblPreset.Size = new System.Drawing.Size(81, 13);
             this.lblPreset.TabIndex = 9;
-            this.lblPreset.Text = "Mod Preset:";
-            // 
-            // comboBox1
-            // 
-            this.selectedPreset.FormattingEnabled = true;
-            this.selectedPreset.Location = new System.Drawing.Point(89, 6);
-            this.selectedPreset.Name = "comboBox1";
-            this.selectedPreset.Size = new System.Drawing.Size(220, 21);
-            this.selectedPreset.TabIndex = 10;
-            // 
-            // cmdWriteModlist
-            // 
-            this.cmdWriteModlist.Location = new System.Drawing.Point(359, 58);
-            this.cmdWriteModlist.Name = "cmdWriteModlist";
-            this.cmdWriteModlist.Size = new System.Drawing.Size(75, 20);
-            this.cmdWriteModlist.TabIndex = 11;
-            this.cmdWriteModlist.Text = "Write";
-            this.cmdWriteModlist.UseVisualStyleBackColor = true;
-            this.cmdWriteModlist.Click += new System.EventHandler(this.cmdWriteModlist_Click);
+            this.lblPreset.Text = "Collection URL:";
             // 
             // clmPath
             // 
@@ -170,13 +150,31 @@
             // 
             this.clmInstalled.Text = "Installed";
             // 
+            // txtCollectionURL
+            // 
+            this.txtCollectionURL.Location = new System.Drawing.Point(89, 6);
+            this.txtCollectionURL.Name = "txtCollectionURL";
+            this.txtCollectionURL.Size = new System.Drawing.Size(220, 20);
+            this.txtCollectionURL.TabIndex = 12;
+            this.txtCollectionURL.Text = "https://steamcommunity.com/sharedfiles/filedetails/?id=";
+            // 
+            // cmdReadMods
+            // 
+            this.cmdReadMods.Location = new System.Drawing.Point(315, 6);
+            this.cmdReadMods.Name = "cmdReadMods";
+            this.cmdReadMods.Size = new System.Drawing.Size(110, 20);
+            this.cmdReadMods.TabIndex = 13;
+            this.cmdReadMods.Text = "Fetch Mods";
+            this.cmdReadMods.UseVisualStyleBackColor = true;
+            this.cmdReadMods.Click += new System.EventHandler(this.cmdReadMods_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(437, 479);
-            this.Controls.Add(this.cmdWriteModlist);
-            this.Controls.Add(this.selectedPreset);
+            this.Controls.Add(this.cmdReadMods);
+            this.Controls.Add(this.txtCollectionURL);
             this.Controls.Add(this.lblPreset);
             this.Controls.Add(this.listMods);
             this.Controls.Add(this.cmdModsBrowse);
@@ -186,10 +184,11 @@
             this.Controls.Add(this.lblConanBrowse);
             this.Controls.Add(this.cmdConanPathBrowse);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(453, 518);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(453, 518);
             this.Name = "MainForm";
             this.Text = "Conan Mod Selector";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,13 +205,13 @@
         private System.Windows.Forms.Button cmdModsBrowse;
         private System.Windows.Forms.FolderBrowserDialog fbdModPath;
         private System.Windows.Forms.Label lblPreset;
-        private System.Windows.Forms.ComboBox selectedPreset;
-        private System.Windows.Forms.Button cmdWriteModlist;
         private System.Windows.Forms.ColumnHeader clmPath;
         private System.Windows.Forms.ColumnHeader clmID;
         private System.Windows.Forms.ColumnHeader clmFilename;
         private System.Windows.Forms.ListView listMods;
         private System.Windows.Forms.ColumnHeader clmInstalled;
+        private System.Windows.Forms.TextBox txtCollectionURL;
+        private System.Windows.Forms.Button cmdReadMods;
     }
 }
 
