@@ -28,12 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.fbdConanPath = new System.Windows.Forms.FolderBrowserDialog();
-            this.cmdConanPathBrowse = new System.Windows.Forms.Button();
-            this.lblConanBrowse = new System.Windows.Forms.Label();
-            this.txtConanPath = new System.Windows.Forms.TextBox();
             this.lblMods = new System.Windows.Forms.Label();
-            this.txtMods = new System.Windows.Forms.TextBox();
+            this.txtSteamPath = new System.Windows.Forms.TextBox();
             this.cmdModsBrowse = new System.Windows.Forms.Button();
             this.fbdModPath = new System.Windows.Forms.FolderBrowserDialog();
             this.lblPreset = new System.Windows.Forms.Label();
@@ -45,59 +43,33 @@
             this.txtCollectionURL = new System.Windows.Forms.TextBox();
             this.cmdWrite = new System.Windows.Forms.Button();
             this.cmdDownload = new System.Windows.Forms.Button();
+            this.prgDownload = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // fbdConanPath
             // 
             this.fbdConanPath.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // cmdConanPathBrowse
-            // 
-            this.cmdConanPathBrowse.Location = new System.Drawing.Point(395, 32);
-            this.cmdConanPathBrowse.Name = "cmdConanPathBrowse";
-            this.cmdConanPathBrowse.Size = new System.Drawing.Size(30, 20);
-            this.cmdConanPathBrowse.TabIndex = 0;
-            this.cmdConanPathBrowse.Text = "...";
-            this.cmdConanPathBrowse.UseVisualStyleBackColor = true;
-            this.cmdConanPathBrowse.Click += new System.EventHandler(this.cmdConanPathBrowse_Click);
-            // 
-            // lblConanBrowse
-            // 
-            this.lblConanBrowse.AutoSize = true;
-            this.lblConanBrowse.Location = new System.Drawing.Point(12, 35);
-            this.lblConanBrowse.Name = "lblConanBrowse";
-            this.lblConanBrowse.Size = new System.Drawing.Size(71, 13);
-            this.lblConanBrowse.TabIndex = 1;
-            this.lblConanBrowse.Text = "Conan Install:";
-            // 
-            // txtConanPath
-            // 
-            this.txtConanPath.Location = new System.Drawing.Point(89, 32);
-            this.txtConanPath.Name = "txtConanPath";
-            this.txtConanPath.Size = new System.Drawing.Size(300, 20);
-            this.txtConanPath.TabIndex = 2;
-            this.txtConanPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Conan Exiles";
-            // 
             // lblMods
             // 
             this.lblMods.AutoSize = true;
-            this.lblMods.Location = new System.Drawing.Point(13, 62);
+            this.lblMods.Location = new System.Drawing.Point(13, 36);
             this.lblMods.Name = "lblMods";
-            this.lblMods.Size = new System.Drawing.Size(70, 13);
+            this.lblMods.Size = new System.Drawing.Size(63, 13);
             this.lblMods.TabIndex = 3;
-            this.lblMods.Text = "Conan Mods:";
+            this.lblMods.Text = "Steamapps:";
             // 
-            // txtMods
+            // txtSteamPath
             // 
-            this.txtMods.Location = new System.Drawing.Point(89, 58);
-            this.txtMods.Name = "txtMods";
-            this.txtMods.Size = new System.Drawing.Size(300, 20);
-            this.txtMods.TabIndex = 4;
-            this.txtMods.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\440900";
+            this.txtSteamPath.Location = new System.Drawing.Point(89, 32);
+            this.txtSteamPath.Name = "txtSteamPath";
+            this.txtSteamPath.Size = new System.Drawing.Size(300, 20);
+            this.txtSteamPath.TabIndex = 4;
+            this.txtSteamPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps";
             // 
             // cmdModsBrowse
             // 
-            this.cmdModsBrowse.Location = new System.Drawing.Point(395, 58);
+            this.cmdModsBrowse.Location = new System.Drawing.Point(395, 32);
             this.cmdModsBrowse.Name = "cmdModsBrowse";
             this.cmdModsBrowse.Size = new System.Drawing.Size(30, 20);
             this.cmdModsBrowse.TabIndex = 5;
@@ -140,9 +112,9 @@
             this.clmFilename,
             this.clmID,
             this.clmInstalled});
-            this.listMods.Location = new System.Drawing.Point(12, 84);
+            this.listMods.Location = new System.Drawing.Point(12, 58);
             this.listMods.Name = "listMods";
-            this.listMods.Size = new System.Drawing.Size(413, 237);
+            this.listMods.Size = new System.Drawing.Size(413, 263);
             this.listMods.TabIndex = 6;
             this.listMods.UseCompatibleStateImageBehavior = false;
             this.listMods.View = System.Windows.Forms.View.Details;
@@ -179,23 +151,31 @@
             this.cmdDownload.TabIndex = 14;
             this.cmdDownload.Text = "Download uninstalled";
             this.cmdDownload.UseVisualStyleBackColor = true;
+            this.cmdDownload.Click += new System.EventHandler(this.cmdDownload_Click);
+            // 
+            // prgDownload
+            // 
+            this.prgDownload.Enabled = false;
+            this.prgDownload.Location = new System.Drawing.Point(12, 327);
+            this.prgDownload.Name = "prgDownload";
+            this.prgDownload.Size = new System.Drawing.Size(170, 23);
+            this.prgDownload.TabIndex = 15;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 351);
+            this.Controls.Add(this.prgDownload);
             this.Controls.Add(this.cmdDownload);
             this.Controls.Add(this.cmdWrite);
             this.Controls.Add(this.txtCollectionURL);
             this.Controls.Add(this.lblPreset);
             this.Controls.Add(this.listMods);
             this.Controls.Add(this.cmdModsBrowse);
-            this.Controls.Add(this.txtMods);
+            this.Controls.Add(this.txtSteamPath);
             this.Controls.Add(this.lblMods);
-            this.Controls.Add(this.txtConanPath);
-            this.Controls.Add(this.lblConanBrowse);
-            this.Controls.Add(this.cmdConanPathBrowse);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(445, 390);
             this.MinimizeBox = false;
@@ -212,11 +192,8 @@
         #endregion
 
         private System.Windows.Forms.FolderBrowserDialog fbdConanPath;
-        private System.Windows.Forms.Button cmdConanPathBrowse;
-        private System.Windows.Forms.Label lblConanBrowse;
-        private System.Windows.Forms.TextBox txtConanPath;
         private System.Windows.Forms.Label lblMods;
-        private System.Windows.Forms.TextBox txtMods;
+        private System.Windows.Forms.TextBox txtSteamPath;
         private System.Windows.Forms.Button cmdModsBrowse;
         private System.Windows.Forms.FolderBrowserDialog fbdModPath;
         private System.Windows.Forms.Label lblPreset;
@@ -228,6 +205,7 @@
         private System.Windows.Forms.TextBox txtCollectionURL;
         private System.Windows.Forms.Button cmdWrite;
         private System.Windows.Forms.Button cmdDownload;
+        private System.Windows.Forms.ProgressBar prgDownload;
     }
 }
 

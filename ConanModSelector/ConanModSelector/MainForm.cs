@@ -1,10 +1,8 @@
 ﻿using AngleSharp;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Windows.Forms;
 
@@ -17,19 +15,11 @@ namespace ConanModSelector
             InitializeComponent();
         }
 
-        private void cmdConanPathBrowse_Click(object sender, EventArgs e)
-        {
-            if (fbdConanPath.ShowDialog() == DialogResult.OK)
-            {
-                txtConanPath.Text = fbdConanPath.SelectedPath;
-            }
-        }
-
         private void cmdModsBrowse_Click(object sender, EventArgs e)
         {
             if (fbdModPath.ShowDialog() == DialogResult.OK)
             {
-                txtMods.Text = fbdModPath.SelectedPath;
+                txtSteamPath.Text = fbdModPath.SelectedPath;
             }
         }
 
@@ -54,11 +44,63 @@ namespace ConanModSelector
                 MessageBox.Show("Steam Collection ID is not valid!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            populateModItems();
+            PopulateModItems();
         }
 
-        private async void populateModItems()
+        private void cmdWrite_Click(object sender, EventArgs e)
         {
+            var modListFile = Path.Combine(txtSteamPath.Text, "common", "Conan Exiles", "ConanSandbox", "Mods", "modlist.txt");
+            var modListData = "";
+
+            foreach (var item in listMods.Items)
+            {
+                var listItem = item as ListViewItem;
+                var modPath = Path.Combine(txtSteamPath.Text, "workshop", "content", "440900", listItem.SubItems[2].Text);
+                modPath = FindPak(modPath);
+                modListData += $"*{modPath}\r\n";
+            }
+
+            File.WriteAllText(modListFile, modListData);
+            MessageBox.Show($"Wrote {listMods.Items.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void cmdDownload_Click(object sender, EventArgs e)
+        {
+            var progressTick = 1 / (float)listMods.Items.Count;
+            prgDownload.Enabled = true;
+            prgDownload.Value = 0;
+
+            foreach (var mod in listMods.Items)
+            {
+                var modItem = mod as ListViewItem;
+                var installed = modItem.SubItems[3].Text;
+                var modId = modItem.SubItems[2].Text;
+                if (installed == "Yes")
+                {
+                    continue;
+                }
+
+                var steamAppsDir = txtSteamPath.Text;
+                steamAppsDir = steamAppsDir.Substring(0, steamAppsDir.LastIndexOf(Path.DirectorySeparatorChar));
+                var info = new ProcessStartInfo()
+                {
+                    FileName = "steamcmd.exe",
+                    Arguments = $"+login anonymous +force_install_dir \"{steamAppsDir}\" +workshop_download_item 440900 {modId} +quit",
+                    UseShellExecute = false
+                };
+                var process = Process.Start(info);
+                prgDownload.Value += (int)(progressTick * prgDownload.Maximum);
+            }
+
+            prgDownload.Value = 0;
+            prgDownload.Enabled = false;
+
+            PopulateModItems();
+        }
+
+        private async void PopulateModItems()
+        {
+            listMods.Items.Clear();
             var config = Configuration.Default.WithDefaultLoader();
             var doc = await BrowsingContext.New(config).OpenAsync(txtCollectionURL.Text);
             var items = doc.QuerySelectorAll(".collectionItemDetails");
@@ -70,20 +112,15 @@ namespace ConanModSelector
                 var title = item.QuerySelector(".workshopItemTitle").TextContent;
                 var url = item.QuerySelector("a").Attributes["href"].Value;
                 var id = url.Substring(url.LastIndexOf("=") + 1);
-                var modPath = Path.Combine(txtMods.Text, id);
-                var installed = Directory.Exists(modPath);
+                var modPath = Path.Combine(txtSteamPath.Text, "workshop", "content", "440900", id);
+                var modPak = FindPak(modPath);
+                var installed = File.Exists(modPak);
                 if (!installed)
                 {
                     uninstalled = true;
                 }
 
-                var files = Directory.EnumerateFiles(modPath, "*.pak");
-                if (files.Count() > 1)
-                {
-                    MessageBox.Show($"Warning: More than one .pak in {modPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
-                modPath = files.First();
+                modPath = FindPak(modPath);
                 modName = Path.GetFileName(modPath);
 
                 listMods.Items.Add(new ListViewItem(new string[] { modPath, title, id, (installed) ? "Yes" : "No" }));
@@ -95,27 +132,20 @@ namespace ConanModSelector
             }
         }
 
-        private void cmdWrite_Click(object sender, EventArgs e)
+        private string FindPak(string directory)
         {
-            var modListFile = Path.Combine(txtConanPath.Text, "ConanSandbox", "Mods", "modlist.txt");
-            var modListData = "";
-
-            foreach (var item in listMods.Items)
+            var files = Directory.EnumerateFiles(directory, "*.pak");
+            if (files.Count() > 1)
             {
-                var listItem = item as ListViewItem;
-                var modPath = Path.Combine(txtMods.Text, listItem.SubItems[2].Text);
-                var files = Directory.EnumerateFiles(modPath, "*.pak");
-                if (files.Count() > 1)
-                {
-                    MessageBox.Show($"Warning: More than one .pak in {modPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
-                modPath = files.First();
-                modListData += $"*{modPath}\r\n";
+                MessageBox.Show($"Warning: More than one .pak in {directory}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            File.WriteAllText(modListFile, modListData);
-            MessageBox.Show($"Wrote {listMods.Items.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (files.Count() == 0)
+            {
+                return null;
+            }
+
+            return files.First();
         }
     }
 }
