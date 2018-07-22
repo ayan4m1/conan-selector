@@ -64,7 +64,7 @@
             this.txtSteamPath.Location = new System.Drawing.Point(89, 32);
             this.txtSteamPath.Name = "txtSteamPath";
             this.txtSteamPath.Size = new System.Drawing.Size(300, 20);
-            this.txtSteamPath.TabIndex = 4;
+            this.txtSteamPath.TabIndex = 1;
             this.txtSteamPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps";
             // 
             // cmdModsBrowse
@@ -72,7 +72,7 @@
             this.cmdModsBrowse.Location = new System.Drawing.Point(395, 32);
             this.cmdModsBrowse.Name = "cmdModsBrowse";
             this.cmdModsBrowse.Size = new System.Drawing.Size(30, 20);
-            this.cmdModsBrowse.TabIndex = 5;
+            this.cmdModsBrowse.TabIndex = 2;
             this.cmdModsBrowse.Text = "...";
             this.cmdModsBrowse.UseVisualStyleBackColor = true;
             this.cmdModsBrowse.Click += new System.EventHandler(this.cmdModsBrowse_Click);
@@ -115,7 +115,7 @@
             this.listMods.Location = new System.Drawing.Point(12, 58);
             this.listMods.Name = "listMods";
             this.listMods.Size = new System.Drawing.Size(413, 263);
-            this.listMods.TabIndex = 6;
+            this.listMods.TabIndex = 3;
             this.listMods.UseCompatibleStateImageBehavior = false;
             this.listMods.View = System.Windows.Forms.View.Details;
             // 
@@ -128,7 +128,7 @@
             this.txtCollectionURL.Location = new System.Drawing.Point(89, 6);
             this.txtCollectionURL.Name = "txtCollectionURL";
             this.txtCollectionURL.Size = new System.Drawing.Size(336, 20);
-            this.txtCollectionURL.TabIndex = 12;
+            this.txtCollectionURL.TabIndex = 0;
             this.txtCollectionURL.Text = "https://steamcommunity.com/sharedfiles/filedetails/?id=";
             this.txtCollectionURL.Leave += new System.EventHandler(this.txtCollectionURL_Leave);
             // 
@@ -137,7 +137,7 @@
             this.cmdWrite.Location = new System.Drawing.Point(323, 327);
             this.cmdWrite.Name = "cmdWrite";
             this.cmdWrite.Size = new System.Drawing.Size(94, 23);
-            this.cmdWrite.TabIndex = 13;
+            this.cmdWrite.TabIndex = 5;
             this.cmdWrite.Text = "Write modlist.txt";
             this.cmdWrite.UseVisualStyleBackColor = true;
             this.cmdWrite.Click += new System.EventHandler(this.cmdWrite_Click);
@@ -148,7 +148,7 @@
             this.cmdDownload.Location = new System.Drawing.Point(188, 327);
             this.cmdDownload.Name = "cmdDownload";
             this.cmdDownload.Size = new System.Drawing.Size(129, 23);
-            this.cmdDownload.TabIndex = 14;
+            this.cmdDownload.TabIndex = 4;
             this.cmdDownload.Text = "Download uninstalled";
             this.cmdDownload.UseVisualStyleBackColor = true;
             this.cmdDownload.Click += new System.EventHandler(this.cmdDownload_Click);
