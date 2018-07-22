@@ -52,9 +52,9 @@
             // 
             // cmdConanPathBrowse
             // 
-            this.cmdConanPathBrowse.Location = new System.Drawing.Point(315, 32);
+            this.cmdConanPathBrowse.Location = new System.Drawing.Point(395, 32);
             this.cmdConanPathBrowse.Name = "cmdConanPathBrowse";
-            this.cmdConanPathBrowse.Size = new System.Drawing.Size(38, 20);
+            this.cmdConanPathBrowse.Size = new System.Drawing.Size(30, 20);
             this.cmdConanPathBrowse.TabIndex = 0;
             this.cmdConanPathBrowse.Text = "...";
             this.cmdConanPathBrowse.UseVisualStyleBackColor = true;
@@ -73,32 +73,32 @@
             // 
             this.txtConanPath.Location = new System.Drawing.Point(89, 32);
             this.txtConanPath.Name = "txtConanPath";
-            this.txtConanPath.Size = new System.Drawing.Size(220, 20);
+            this.txtConanPath.Size = new System.Drawing.Size(300, 20);
             this.txtConanPath.TabIndex = 2;
-            this.txtConanPath.Text = "E:\\steamapps\\common\\Conan Exiles";
+            this.txtConanPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Conan Exiles";
             // 
             // lblMods
             // 
             this.lblMods.AutoSize = true;
-            this.lblMods.Location = new System.Drawing.Point(47, 61);
+            this.lblMods.Location = new System.Drawing.Point(13, 62);
             this.lblMods.Name = "lblMods";
-            this.lblMods.Size = new System.Drawing.Size(36, 13);
+            this.lblMods.Size = new System.Drawing.Size(70, 13);
             this.lblMods.TabIndex = 3;
-            this.lblMods.Text = "Mods:";
+            this.lblMods.Text = "Conan Mods:";
             // 
             // txtMods
             // 
             this.txtMods.Location = new System.Drawing.Point(89, 58);
             this.txtMods.Name = "txtMods";
-            this.txtMods.Size = new System.Drawing.Size(220, 20);
+            this.txtMods.Size = new System.Drawing.Size(300, 20);
             this.txtMods.TabIndex = 4;
-            this.txtMods.Text = "E:\\steamapps\\workshop\\content\\440900";
+            this.txtMods.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\440900";
             // 
             // cmdModsBrowse
             // 
-            this.cmdModsBrowse.Location = new System.Drawing.Point(315, 58);
+            this.cmdModsBrowse.Location = new System.Drawing.Point(395, 58);
             this.cmdModsBrowse.Name = "cmdModsBrowse";
-            this.cmdModsBrowse.Size = new System.Drawing.Size(38, 20);
+            this.cmdModsBrowse.Size = new System.Drawing.Size(30, 20);
             this.cmdModsBrowse.TabIndex = 5;
             this.cmdModsBrowse.Text = "...";
             this.cmdModsBrowse.UseVisualStyleBackColor = true;
@@ -139,9 +139,9 @@
             this.clmID,
             this.clmFilename,
             this.clmInstalled});
-            this.listMods.Location = new System.Drawing.Point(12, 84);
+            this.listMods.Location = new System.Drawing.Point(12, 110);
             this.listMods.Name = "listMods";
-            this.listMods.Size = new System.Drawing.Size(413, 383);
+            this.listMods.Size = new System.Drawing.Size(413, 237);
             this.listMods.TabIndex = 6;
             this.listMods.UseCompatibleStateImageBehavior = false;
             this.listMods.View = System.Windows.Forms.View.Details;
@@ -154,17 +154,18 @@
             // 
             this.txtCollectionURL.Location = new System.Drawing.Point(89, 6);
             this.txtCollectionURL.Name = "txtCollectionURL";
-            this.txtCollectionURL.Size = new System.Drawing.Size(220, 20);
+            this.txtCollectionURL.Size = new System.Drawing.Size(336, 20);
             this.txtCollectionURL.TabIndex = 12;
             this.txtCollectionURL.Text = "https://steamcommunity.com/sharedfiles/filedetails/?id=";
+            this.txtCollectionURL.Leave += new System.EventHandler(this.txtCollectionURL_Leave);
             // 
             // cmdReadMods
             // 
-            this.cmdReadMods.Location = new System.Drawing.Point(315, 6);
+            this.cmdReadMods.Location = new System.Drawing.Point(327, 84);
             this.cmdReadMods.Name = "cmdReadMods";
-            this.cmdReadMods.Size = new System.Drawing.Size(110, 20);
+            this.cmdReadMods.Size = new System.Drawing.Size(98, 20);
             this.cmdReadMods.TabIndex = 13;
-            this.cmdReadMods.Text = "Fetch Mods";
+            this.cmdReadMods.Text = "Write modlist.txt";
             this.cmdReadMods.UseVisualStyleBackColor = true;
             this.cmdReadMods.Click += new System.EventHandler(this.cmdReadMods_Click);
             // 
@@ -172,7 +173,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 479);
+            this.ClientSize = new System.Drawing.Size(429, 351);
             this.Controls.Add(this.cmdReadMods);
             this.Controls.Add(this.txtCollectionURL);
             this.Controls.Add(this.lblPreset);
@@ -184,10 +185,12 @@
             this.Controls.Add(this.lblConanBrowse);
             this.Controls.Add(this.cmdConanPathBrowse);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(453, 518);
+            this.MaximumSize = new System.Drawing.Size(445, 390);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(453, 518);
+            this.MinimumSize = new System.Drawing.Size(445, 390);
             this.Name = "MainForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Conan Mod Selector";
             this.ResumeLayout(false);
             this.PerformLayout();

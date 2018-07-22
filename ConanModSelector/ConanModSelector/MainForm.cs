@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Windows.Forms;
 
 namespace ConanModSelector
@@ -43,7 +44,7 @@ namespace ConanModSelector
 
             if (items.Length == 0)
             {
-                MessageBox.Show("No items found in collection!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Check Collection URL!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -72,6 +73,28 @@ namespace ConanModSelector
 
             File.WriteAllText(modListFile, modListData);
             MessageBox.Show($"Wrote {listMods.Items.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void txtCollectionURL_Leave(object sender, EventArgs e)
+        {
+            var validUri = Uri.IsWellFormedUriString(txtCollectionURL.Text, UriKind.Absolute);
+            if (!validUri)
+            {
+                MessageBox.Show("Steam Collection URL is not valid!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCollectionURL.Focus();
+                return;
+            }
+
+            var uri = new Uri(txtCollectionURL.Text);
+            var queryString = HttpUtility.ParseQueryString(uri.Query);
+            try
+            {
+                var collectionId = int.Parse(queryString["id"]);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Steam Collection ID is not valid!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
