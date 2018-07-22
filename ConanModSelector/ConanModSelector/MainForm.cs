@@ -33,48 +33,6 @@ namespace ConanModSelector
             }
         }
 
-        private async void cmdReadMods_Click(object sender, EventArgs e)
-        {
-            var modListFile = Path.Combine(txtConanPath.Text, "ConanSandbox", "Mods", "modlist.txt");
-            var config = Configuration.Default.WithDefaultLoader();
-            cmdReadMods.Enabled = false;
-            var doc = await BrowsingContext.New(config).OpenAsync(txtCollectionURL.Text);
-            cmdReadMods.Enabled = true;
-            var items = doc.QuerySelectorAll(".collectionItemDetails");
-
-            if (items.Length == 0)
-            {
-                MessageBox.Show("Check Collection URL!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var modName = "";
-            var modListData = "";
-            foreach (var item in items)
-            {
-                var title = item.QuerySelector(".workshopItemTitle").TextContent;
-                var url = item.QuerySelector("a").Attributes["href"].Value;
-                var id = url.Substring(url.LastIndexOf("=") + 1);
-                var modPath = Path.Combine(txtMods.Text, id);
-                var installed = Directory.Exists(modPath);
-
-                var files = Directory.EnumerateFiles(modPath, "*.pak");
-                if (files.Count() > 1)
-                {
-                    MessageBox.Show($"Warning: More than one .pak in {modPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
-                modPath = files.First();
-                modName = Path.GetFileName(modPath);
-                modListData += $"*{modPath}\r\n";
-
-                listMods.Items.Add(new ListViewItem(new string[] { modPath, title, id, (installed) ? "Yes" : "No" }));
-            }
-
-            File.WriteAllText(modListFile, modListData);
-            MessageBox.Show($"Wrote {listMods.Items.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         private void txtCollectionURL_Leave(object sender, EventArgs e)
         {
             var validUri = Uri.IsWellFormedUriString(txtCollectionURL.Text, UriKind.Absolute);
@@ -95,6 +53,69 @@ namespace ConanModSelector
             {
                 MessageBox.Show("Steam Collection ID is not valid!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+            populateModItems();
+        }
+
+        private async void populateModItems()
+        {
+            var config = Configuration.Default.WithDefaultLoader();
+            var doc = await BrowsingContext.New(config).OpenAsync(txtCollectionURL.Text);
+            var items = doc.QuerySelectorAll(".collectionItemDetails");
+            var uninstalled = false;
+
+            var modName = "";
+            foreach (var item in items)
+            {
+                var title = item.QuerySelector(".workshopItemTitle").TextContent;
+                var url = item.QuerySelector("a").Attributes["href"].Value;
+                var id = url.Substring(url.LastIndexOf("=") + 1);
+                var modPath = Path.Combine(txtMods.Text, id);
+                var installed = Directory.Exists(modPath);
+                if (!installed)
+                {
+                    uninstalled = true;
+                }
+
+                var files = Directory.EnumerateFiles(modPath, "*.pak");
+                if (files.Count() > 1)
+                {
+                    MessageBox.Show($"Warning: More than one .pak in {modPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                modPath = files.First();
+                modName = Path.GetFileName(modPath);
+
+                listMods.Items.Add(new ListViewItem(new string[] { modPath, title, id, (installed) ? "Yes" : "No" }));
+            }
+
+            if (uninstalled)
+            {
+                cmdDownload.Enabled = true;
+            }
+        }
+
+        private void cmdWrite_Click(object sender, EventArgs e)
+        {
+            var modListFile = Path.Combine(txtConanPath.Text, "ConanSandbox", "Mods", "modlist.txt");
+            var modListData = "";
+
+            foreach (var item in listMods.Items)
+            {
+                var listItem = item as ListViewItem;
+                var modPath = Path.Combine(txtMods.Text, listItem.SubItems[2].Text);
+                var files = Directory.EnumerateFiles(modPath, "*.pak");
+                if (files.Count() > 1)
+                {
+                    MessageBox.Show($"Warning: More than one .pak in {modPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                modPath = files.First();
+                modListData += $"*{modPath}\r\n";
+            }
+
+            File.WriteAllText(modListFile, modListData);
+            MessageBox.Show($"Wrote {listMods.Items.Count} mods to {modListFile}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

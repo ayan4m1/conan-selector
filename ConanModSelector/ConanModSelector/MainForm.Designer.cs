@@ -43,7 +43,8 @@
             this.listMods = new System.Windows.Forms.ListView();
             this.clmInstalled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtCollectionURL = new System.Windows.Forms.TextBox();
-            this.cmdReadMods = new System.Windows.Forms.Button();
+            this.cmdWrite = new System.Windows.Forms.Button();
+            this.cmdDownload = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // fbdConanPath
@@ -136,10 +137,10 @@
             // 
             this.listMods.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmPath,
-            this.clmID,
             this.clmFilename,
+            this.clmID,
             this.clmInstalled});
-            this.listMods.Location = new System.Drawing.Point(12, 110);
+            this.listMods.Location = new System.Drawing.Point(12, 84);
             this.listMods.Name = "listMods";
             this.listMods.Size = new System.Drawing.Size(413, 237);
             this.listMods.TabIndex = 6;
@@ -159,22 +160,33 @@
             this.txtCollectionURL.Text = "https://steamcommunity.com/sharedfiles/filedetails/?id=";
             this.txtCollectionURL.Leave += new System.EventHandler(this.txtCollectionURL_Leave);
             // 
-            // cmdReadMods
+            // cmdWrite
             // 
-            this.cmdReadMods.Location = new System.Drawing.Point(327, 84);
-            this.cmdReadMods.Name = "cmdReadMods";
-            this.cmdReadMods.Size = new System.Drawing.Size(98, 20);
-            this.cmdReadMods.TabIndex = 13;
-            this.cmdReadMods.Text = "Write modlist.txt";
-            this.cmdReadMods.UseVisualStyleBackColor = true;
-            this.cmdReadMods.Click += new System.EventHandler(this.cmdReadMods_Click);
+            this.cmdWrite.Location = new System.Drawing.Point(323, 327);
+            this.cmdWrite.Name = "cmdWrite";
+            this.cmdWrite.Size = new System.Drawing.Size(94, 23);
+            this.cmdWrite.TabIndex = 13;
+            this.cmdWrite.Text = "Write modlist.txt";
+            this.cmdWrite.UseVisualStyleBackColor = true;
+            this.cmdWrite.Click += new System.EventHandler(this.cmdWrite_Click);
+            // 
+            // cmdDownload
+            // 
+            this.cmdDownload.Enabled = false;
+            this.cmdDownload.Location = new System.Drawing.Point(188, 327);
+            this.cmdDownload.Name = "cmdDownload";
+            this.cmdDownload.Size = new System.Drawing.Size(129, 23);
+            this.cmdDownload.TabIndex = 14;
+            this.cmdDownload.Text = "Download uninstalled";
+            this.cmdDownload.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 351);
-            this.Controls.Add(this.cmdReadMods);
+            this.Controls.Add(this.cmdDownload);
+            this.Controls.Add(this.cmdWrite);
             this.Controls.Add(this.txtCollectionURL);
             this.Controls.Add(this.lblPreset);
             this.Controls.Add(this.listMods);
@@ -214,7 +226,8 @@
         private System.Windows.Forms.ListView listMods;
         private System.Windows.Forms.ColumnHeader clmInstalled;
         private System.Windows.Forms.TextBox txtCollectionURL;
-        private System.Windows.Forms.Button cmdReadMods;
+        private System.Windows.Forms.Button cmdWrite;
+        private System.Windows.Forms.Button cmdDownload;
     }
 }
 
